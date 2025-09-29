@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import Post
 
 class PostSerializer(serializers.Serializer):
@@ -23,3 +24,9 @@ class PostSerializer(serializers.Serializer):
         '''
         instance.title = validated_data.get('title', instance.title) 
         instance.content = validated_data.get('content', instance.content)
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    '''User Serializer -> ModelSerializer'''
+    class Meta:
+        model = User
+        fields = ['url','username','email']
