@@ -24,6 +24,8 @@ class PostSerializer(serializers.Serializer):
         '''
         instance.title = validated_data.get('title', instance.title) 
         instance.content = validated_data.get('content', instance.content)
+        instance.save()
+        return instance
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     '''User Serializer -> ModelSerializer'''
