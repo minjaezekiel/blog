@@ -11,6 +11,7 @@ class PostSerializer(serializers.Serializer):
     title = serializers.CharField(max_length = 250)
     content = serializers.CharField(style = {'base_template': 'textarea.html'})
     created = serializers.DateTimeField(read_only = True)
+    updated = serializers.DateTimeField(read_only = True)
 
     def create(self, validated_data):
         '''Creates an instance of the post if the data is valid'''
