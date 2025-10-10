@@ -1,8 +1,10 @@
 import { useState,useEffect } from 'react'
 import axios from "axios"
+import CreatePost from './components/create_post'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+
 
 const base_url = 'http://127.0.0.1:8000/'
 
@@ -29,6 +31,8 @@ useEffect(() => {
   if (error) return <p>Error: {error}</p>
   return (
     <>
+    {/* ✅ Add your CreatePost component here */}
+    <CreatePost />
      <h1>Latest Posts</h1>
      {data.length === 0 ?(<p>No posts found</p>)
      :
