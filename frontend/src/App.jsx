@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react'
+import { useState,useEffect, useCallback } from 'react'
 import axios from "axios"
 import CreatePost from './components/create_post'
 import reactLogo from './assets/react.svg'
@@ -13,18 +13,32 @@ function App() {
   const [loading,setLoading] = useState(true)
   const [error,setError] = useState(null)
 
-  {/* using axios and useEffect to get post data from api  */}
-useEffect(() => {
-  axios.get(`${base_url}home`)
-    .then((res) => {
-      setData(res.data)
-      setLoading(false)
-    })
-    .catch((err) => {
-      setError(err.message)
-      setLoading(false)
-    })
-}, [])
+  // ✅ useCallback to prevent redefining fetchPosts on every render
+  const fetchPosts = useCallback(async () => {
+    try {
+      const res = await axios.get(`${base_url}home`);
+      setData(res.data);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // ✅ Fetch posts initially + refresh every 15 seconds
+  useEffect(() => {
+    fetchPosts(); // initial load
+
+    const interval = setInterval(() => {
+      fetchPosts(); // re-fetch every 15s
+    }, 15000);
+
+    return () => clearInterval(interval); // cleanup
+  }, [fetchPosts]);
+
+
 
  
   if (loading) return <p>Loading posts...</p>
